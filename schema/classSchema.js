@@ -16,7 +16,13 @@ const classSchema = new mongoose.Schema({
 			title: String,
 			description: String,
 			submissions: [
-				{ email: String, time: Number, note: String, grade: Number }
+				{
+					email: String,
+					time: Number,
+					note: String,
+					grade: Number,
+					graded: Boolean
+				}
 			]
 		}
 	]

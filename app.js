@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 require('ejs');
 const session = require('express-session');
 const passport = require('passport');
-var cloudinaryRouter = require('./utils/cloudinaryUpload')
+var cloudinaryRouter = require('./utils/cloudinaryUpload');
 
 require('./db/mongoose');
 
@@ -135,6 +135,36 @@ app.get('/add/:code', (req, res) => {
 					});
 				} else {
 					res.send('Server Error');
+				}
+			});
+		} else {
+			res.status(404).send('<h1>404 Not Found!</h1>');
+		}
+	} else {
+		res.redirect('/login');
+	}
+});
+
+app.get('/classroom/:code/:assignment', (req, res) => {
+	if (req.isAuthenticated()) {
+		if (req.user.adminClass.includes(req.params.code)) {
+			Class.where({ code: req.params.code }).findOne((err, croom) => {
+				if (err) {
+					res.status(404).send('<h1>404 Not Found!</h1>');
+				} else if (croom) {
+					if (croom.assignments[parseInt(req.params.assignment)]) {
+						res.render('classroom-admin-assignment', {
+							code: req.params.code,
+							no: req.params.assignment,
+							name: croom.name,
+							assignment:
+								croom.assignments[
+									parseInt(req.params.assignment)
+								]
+						});
+					}
+				} else {
+					res.status(404).send('<h1>404 Not Found!</h1>');
 				}
 			});
 		} else {
