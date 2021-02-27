@@ -1,0 +1,182 @@
+body
+{
+	top: 0;
+	left: 0;
+	scroll-behavior: smooth;
+	margin: 0;
+	font-size: 100%;
+	font-family: 'Poppins', sans-serif;
+	background: #fff;
+}
+
+.cursive
+{
+	font-family: cursive;
+}
+
+.cursor-ptr
+{
+	cursor: pointer;
+}
+
+input:active, input:focus
+{
+	outline: none;
+	border-color: #0275d8
+}
+
+.login-body
+{
+	background: #f0f2f5;
+	min-height: 100vh;
+}
+
+.login-region
+{
+	background: #fff;
+	width: 30%;
+	left: 70%;
+	top: 50%;
+	-ms-transform: translate(-50%,-50%);
+ 	transform: translate(-50%,-50%);
+ 	border-radius: 6px;
+ 	box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+ 	position: absolute;
+}
+
+.login-inp
+{
+	border-radius: 6px;
+	border: 1px solid #dddfe2;
+	transition: 0.4s;
+}
+
+.login-submit
+{
+	font-size: 20px;
+}
+
+.login-logo
+{
+	font-family: cursive,"Roboto", Arial, sans-serif;
+	font-size: 	60px;
+}
+
+.login-extra
+{
+	left: 15%;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+ 	transform: translateY(-50%);
+ 	width: 45%;
+ 	position: absolute;
+ 	text-align: left;
+}
+
+.login-tagline
+{
+	font-size: 	26px;
+	font-family: "Roboto", Arial, sans-serif;
+}
+
+@media(max-width: 1250px)
+{
+	.login-region
+	{
+		left: 75%;
+	}
+
+	.login-extra
+	{
+		left: 10%;
+		width: 50%;
+	}
+}
+
+@media(max-width: 850px)
+{
+	.login-region
+	{
+		position: relative;
+		left: 0;
+		top: 0;
+		-ms-transform: none;
+ 		transform: none;
+ 		text-align: right;
+ 		width: 100%;
+ 		max-width: 400px;
+	}
+
+	.login-extra
+	{
+		position: relative;
+		left: 0;
+		top: 0;
+		-ms-transform: none;
+	 	transform: none;
+	 	text-align: right;
+	 	width: 100%;
+ 		padding: 20px;
+ 		text-align: center;
+	}
+
+	.login-whole
+	{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 100%;
+		-ms-transform: translate(-50%,-50%);
+ 		transform: translate(-50%,-50%);
+	}
+
+	.login-logo
+	{
+		font-size: 40px;
+	}
+
+	.login-tagline
+	{
+		font-size: 20px;
+	}
+}
+
+@media(max-width: 425px)
+{
+	.login-body
+	{
+		background: #fff;
+	}
+}
+
+.home-logo
+{
+	font-family: cursive,"Roboto", Arial, sans-serif;
+	font-size: 	40px;
+}
+
+@media(max-width: 418px)
+{
+	.home-logo
+	{
+		font-size: 30px;
+	}
+}
+
+.home-img
+{
+	border-radius: 50%;
+}
+
+.courses-shad
+{
+	box-shadow: 0px 0px 10px #aaa;
+}
+
+.video
+{
+	bottom: 0;
+	right: 0;
+	width: 50%;
+	max-width: 320px;
+}
