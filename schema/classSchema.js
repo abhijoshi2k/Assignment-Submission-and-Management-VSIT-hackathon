@@ -15,7 +15,9 @@ const classSchema = new mongoose.Schema({
 			dueDate: Number,
 			title: String,
 			description: String,
-			submissions: [{ email: String, time: Number, note: String }]
+			submissions: [
+				{ email: String, time: Number, note: String, grade: Number }
+			]
 		}
 	]
 });
