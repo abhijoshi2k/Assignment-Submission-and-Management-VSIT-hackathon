@@ -120,7 +120,28 @@ app.get('/classroom/:code', (req, res) => {
 	}
 });
 
-app.get('/add/:code', (req, res) => {});
+app.get('/add/:code', (req, res) => {
+	if (req.isAuthenticated()) {
+		if (req.user.adminClass.includes(req.params.code)) {
+			Class.where({ code: req.params.code }).findOne((err, croom) => {
+				if (err) {
+					res.send('Server Error');
+				} else if (croom) {
+					res.render('add-assignment', {
+						code: req.params.code,
+						name: croom.name
+					});
+				} else {
+					res.send('Server Error');
+				}
+			});
+		} else {
+			res.status(404).send('<h1>404 Not Found!</h1>');
+		}
+	} else {
+		res.redirect('/login');
+	}
+});
 
 app.get('/logout', (req, res) => {
 	req.logout();
@@ -226,10 +247,37 @@ app.post('/join-class', (req, res) => {
 				}
 			});
 		}
-
-		res.redirect('/classroom/' + code);
 	} else {
 		res.status(404);
+	}
+});
+
+app.post('/add/:code', (req, res) => {
+	if (req.isAuthenticated()) {
+		if (req.user.adminClass.includes(req.params.code)) {
+			Class.where({ code: req.params.code }).findOne((err, croom) => {
+				if (err) {
+					res.send('Server Error');
+				} else if (croom) {
+					croom.assignments.push({
+						givenDate: new Date().getTime(),
+						dueDate: parseInt(req.body.hide),
+						title: req.body.title,
+						description: req.body.description,
+						submissions: []
+					});
+					croom.save(() => {
+						res.redirect('/classroom/' + req.params.code);
+					});
+				} else {
+					res.send('Server Error');
+				}
+			});
+		} else {
+			res.status(404).send('<h1>404 Not Found!</h1>');
+		}
+	} else {
+		res.redirect('/login');
 	}
 });
 
