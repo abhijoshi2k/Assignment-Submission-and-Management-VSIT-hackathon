@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 require('ejs');
 const session = require('express-session');
 const passport = require('passport');
+const base64 = require('base64topdf');
+
+var fileupload = require('express-fileupload');
 
 require('./db/mongoose');
 
@@ -29,6 +32,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(fileupload());
 
 passport.use(User.createStrategy());
 
@@ -186,7 +190,9 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 							desc:
 								croom.assignments[
 									parseInt(req.params.assignment)
-								].description
+								].description,
+							code: req.params.code,
+							no: req.params.assignment
 						});
 					}
 				} else {
@@ -388,6 +394,62 @@ app.post('/classroom/:code/:assignment/grade', (req, res) => {
 		}
 	} else {
 		res.redirect('/login');
+	}
+});
+
+app.post('/upload/:code/:assn', async (req, res) => {
+	try {
+		if (req.isAuthenticated()) {
+			const user = req.user;
+			const code = '1';
+			var userClassId = user.memberClass[code];
+			console.log(req.files);
+			if (!req.files) {
+				return res.status(404).send();
+			}
+			// Encoding the PDF to base64
+			let encodedPdf = base64.base64Encode(req.files.userPDF.data);
+
+			Class.where({ code: req.params.code }).findOne((err, croom) => {
+				if (err) {
+					console.log(err);
+				} else {
+					croom.assignments[
+						parseInt(req.params.assn)
+					].submissions.push({
+						email: req.user.username,
+						time: new Date().getTime(),
+						grade: 0,
+						graded: false,
+						doc: encodedPdf
+					});
+					croom.save();
+				}
+			});
+
+			// Append to the classSchema Assignment
+
+			//   user.userClassId.assignments.append = {
+			//     givenDate,
+			//     dueDate,
+			//     title,
+			//     description,
+			//     submissions:{
+			//         email,
+			//         time,
+			//         note,
+			//         grade
+			//     }
+			//   }
+			//   await user.save();
+			// await class.save();
+			res.status(201).send(buffer);
+		} else {
+			res.render('register');
+		}
+	} catch (e) {
+		console.log(e);
+		res.status(400).send(e);
 	}
 });
 

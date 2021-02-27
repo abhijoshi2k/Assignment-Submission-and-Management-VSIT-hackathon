@@ -1,4 +1,4 @@
-<form method="post" enctype="multipart/form-data" action="/uploadAssignment">
+<form method="post" action="/upload/<%= code %>/<%= no %>" enctype="multipart/form-data">
     <div>
         <label for="userPDF">Choose file to upload</label>
         <input type="file" id="userPDF" name="userPDF" accept=".pdf">
