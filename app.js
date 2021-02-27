@@ -177,15 +177,18 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 						}
 					});
 
-					res.render('upload', {
-						title:
-							croom.assignments[parseInt(req.params.assignment)]
-								.title,
-						desc:
-							croom.assignments[parseInt(req.params.assignment)]
-								.description,
-						sub: sub
-					});
+					if (sub == false) {
+						res.render('upload', {
+							title:
+								croom.assignments[
+									parseInt(req.params.assignment)
+								].title,
+							desc:
+								croom.assignments[
+									parseInt(req.params.assignment)
+								].description
+						});
+					}
 				} else {
 					res.status(404).send('<h1>404 Not Found!</h1>');
 				}
