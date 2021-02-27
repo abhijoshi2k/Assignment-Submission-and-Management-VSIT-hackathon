@@ -66,7 +66,7 @@
 				let val = new Date(
 					document.getElementById('date').value
 				).getTime();
-				if (val < new Date().getTime()) {
+				if (val < new Date().now()) {
 					alert('Due Date should be in future!');
 					return false;
 				} else {
