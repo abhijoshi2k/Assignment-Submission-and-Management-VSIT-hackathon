@@ -64,7 +64,29 @@ app.get('/signup', (req, res) => {
 
 app.get('/dashboard', (req, res) => {
 	if (req.isAuthenticated()) {
-		res.render('dashboard_sample');
+		Class.find(
+			{ code: { $in: req.user.memberClass } },
+			function (err, croomMem) {
+				if (err) {
+					res.send('Some error occurred');
+				} else {
+					Class.find(
+						{ admin: req.user.username },
+						(err, croomAdm) => {
+							if (err) {
+								res.send('Some error occurred');
+							} else {
+								res.render('dashboard_sample', {
+									croomMem: croomMem,
+									me: req.user.username,
+									croomAdm: croomAdm
+								});
+							}
+						}
+					);
+				}
+			}
+		);
 	} else {
 		res.redirect('/login');
 	}
@@ -191,9 +213,6 @@ app.post('/join-class', (req, res) => {
 				}
 			});
 		}
-
-		req.user.adminClass.push(code);
-		req.user.save();
 
 		res.redirect('/classroom/' + code);
 	} else {

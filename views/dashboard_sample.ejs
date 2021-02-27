@@ -70,5 +70,30 @@
 			<input type="text" name="code" placeholder="Class Code" />
 			<button type="submit">Join Class</button>
 		</form>
+		<br />
+
+        <h5>My Classes</h5>
+        <p>Admin:</p>
+        <ul>
+            <% croomAdm.forEach(cr => {
+                %><li><a href="/classroom/<%= cr.code %>"><%= cr.name %></a></li><%
+            }); %>
+        </ul>
+
+        <br>
+
+        <p>Member:</p>
+        <ul>
+            <% croomMem.forEach(cr => {
+                %><li><a href="/classroom/<%= cr.code %>"><%= cr.name %></a></li><%
+            }); %>
+        </ul>
+
+        <br>
+        <h5>Pending:</h5>
+		<% croomMem.forEach(room => { room.assignments.forEach(assignment => {
+		if(!assignment.submissions.includes(me) && new Date().getTime()<assignment.dueDate){
+            %><%= assignment.title %> - Due: <script>document.write(new Date(parseInt('<%= assignment.dueDate %>')).getTime().toLocaleString())</script><br><%
+        } }); }); %>
 	</body>
 </html>
