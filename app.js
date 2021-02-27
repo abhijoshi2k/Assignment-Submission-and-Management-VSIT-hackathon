@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 require('ejs');
 const session = require('express-session');
 const passport = require('passport');
+var cloudinaryRouter = require('./utils/cloudinaryUpload')
 
 require('./db/mongoose');
 
@@ -29,6 +30,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cloudinaryRouter);
 
 passport.use(User.createStrategy());
 
