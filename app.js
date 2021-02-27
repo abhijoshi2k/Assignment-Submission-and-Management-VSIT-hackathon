@@ -77,9 +77,11 @@ app.get('/classroom/:code', (req, res) => {
 				res.status(404).send('<h1>404 Not Found!</h1>');
 			} else if (croom) {
 				if (req.user.adminClass.includes(req.params.code)) {
-					res.render('classroom-admin', { croom: croom });
+					res.render('classroom-admin-sample', { croom: croom });
 				} else if (req.user.memberClass.includes(req.params.code)) {
-					res.render('classroom-member', { croom: croom });
+					res.render('classroom-member-sample', { croom: croom });
+				} else {
+					res.status(404).send('404 Not Found!');
 				}
 			} else {
 				res.status(404).send('<h1>404 Not Found!</h1>');
@@ -157,12 +159,45 @@ app.post('/create-class', (req, res) => {
 			assignments: []
 		});
 
-		croom.save();
+		croom.save(() => {
+			req.user.adminClass.push(code);
+			req.user.save(() => {
+				res.redirect('/classroom/' + code);
+			});
+		});
+	}
+});
+
+app.post('/join-class', (req, res) => {
+	if (req.isAuthenticated()) {
+		if (req.user.adminClass.includes(req.body.code)) {
+			res.send('<p>You are admin of this class!</p>');
+		} else if (req.user.memberClass.includes(req.body.code)) {
+			res.redirect('/classroom/' + req.body.code);
+		} else {
+			Class.where({ code: req.body.code }).findOne((err, croom) => {
+				if (err) {
+					res.send('Class not found!');
+				} else if (croom) {
+					croom.members.push(req.user.username);
+					croom.save(() => {
+						req.user.memberClass.push(req.body.code);
+						req.user.save(() => {
+							res.redirect('/classroom/' + req.body.code);
+						});
+					});
+				} else {
+					res.send('Class not found!');
+				}
+			});
+		}
 
 		req.user.adminClass.push(code);
 		req.user.save();
 
 		res.redirect('/classroom/' + code);
+	} else {
+		res.status(404);
 	}
 });
 
