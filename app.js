@@ -5,7 +5,6 @@ require('ejs');
 const session = require('express-session');
 const passport = require('passport');
 
-
 require('./db/mongoose');
 
 const User = require('./schema/userSchema');
