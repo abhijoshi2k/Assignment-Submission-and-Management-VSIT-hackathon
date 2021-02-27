@@ -90,8 +90,11 @@
 
 		<% assignment.submissions.forEach(sub => { %>
 		<p>
-			<b><%= sub.email %></b>
+			<b><a href="data:application/octet-stream;base64,<%= sub.doc.toString('base64') %>" target="_blank" download = "<%= sub.email %>.pdf"><%= sub.email %></a></b>
 			<br />
+
+
+
             <% if(sub.graded) { %>
                 Marks: <%= sub.grade %>
                 <br>

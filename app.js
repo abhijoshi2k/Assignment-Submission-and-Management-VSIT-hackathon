@@ -194,6 +194,20 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 							code: req.params.code,
 							no: req.params.assignment
 						});
+					} else {
+						res.render('submitted', {
+							title:
+								croom.assignments[
+									parseInt(req.params.assignment)
+								].title,
+							desc:
+								croom.assignments[
+									parseInt(req.params.assignment)
+								].description,
+							code: req.params.code,
+							no: req.params.assignment,
+							sub: sub
+						});
 					}
 				} else {
 					res.status(404).send('<h1>404 Not Found!</h1>');
@@ -408,7 +422,7 @@ app.post('/upload/:code/:assn', async (req, res) => {
 				return res.status(404).send();
 			}
 			// Encoding the PDF to base64
-			let encodedPdf = base64.base64Encode(req.files.userPDF.data);
+			//let encodedPdf = base64.base64Encode(req.files.userPDF.data);
 
 			Class.where({ code: req.params.code }).findOne((err, croom) => {
 				if (err) {
@@ -421,9 +435,11 @@ app.post('/upload/:code/:assn', async (req, res) => {
 						time: new Date().getTime(),
 						grade: 0,
 						graded: false,
-						doc: encodedPdf
+						doc: req.files.userPDF.data
 					});
-					croom.save();
+					croom.save(() => {
+						res.redirect('/upload/req.params.code/req.params.assn');
+					});
 				}
 			});
 
@@ -443,7 +459,6 @@ app.post('/upload/:code/:assn', async (req, res) => {
 			//   }
 			//   await user.save();
 			// await class.save();
-			res.status(201).send(buffer);
 		} else {
 			res.render('register');
 		}
