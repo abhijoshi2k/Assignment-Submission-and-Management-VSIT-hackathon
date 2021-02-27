@@ -61,6 +61,14 @@ app.get('/signup', (req, res) => {
 	}
 });
 
+app.get('/dashboard', (req, res) => {
+	if (req.isAuthenticated()) {
+		res.render('dashboard_sample');
+	} else {
+		res.redirect('login');
+	}
+});
+
 app.post('/login', (req, res) => {
 	if (req.isAuthenticated()) {
 		res.redirect('/home');
