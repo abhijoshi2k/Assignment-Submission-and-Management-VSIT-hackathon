@@ -69,8 +69,8 @@
         <% } %>
         <br>
         <ul>
-            <% for(let i=0;i<croom.assignments.length;i++) { %>
-                <li><a href="/classroom/<%= classRoom.code %>/<%= i %>"><%= croom.assignments[i].title %></a></li>
+            <% for(let i=0;i<classRoom.assignments.length;i++) { %>
+                <li><a href="/classroom/<%= classRoom.code %>/<%= i %>"><%= classRoom.assignments[i].title %></a></li>
             <% } %>
         </ul>
 	</body>

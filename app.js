@@ -100,12 +100,12 @@ app.get('/classroom/:code', (req, res) => {
 			} else if (croom) {
 				if (req.user.adminClass.includes(req.params.code)) {
 					res.render('classroom-admin-sample', {
-						croom: croom,
+						classRoom: croom,
 						admin: true
 					});
 				} else if (req.user.memberClass.includes(req.params.code)) {
 					res.render('classroom-admin-sample', {
-						croom: croom,
+						classRoom: croom,
 						admin: false
 					});
 				} else {
