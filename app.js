@@ -8,6 +8,7 @@ const passport = require('passport');
 require('./db/mongoose');
 
 const User = require('./schema/userSchema');
+const Class = require('./schema/classSchema');
 
 const app = express();
 
@@ -65,7 +66,27 @@ app.get('/dashboard', (req, res) => {
 	if (req.isAuthenticated()) {
 		res.render('dashboard_sample');
 	} else {
-		res.redirect('login');
+		res.redirect('/login');
+	}
+});
+
+app.get('/classroom/:code', (req, res) => {
+	if (req.isAuthenticated()) {
+		Class.where({ code: req.params.code }).findOne((err, croom) => {
+			if (err) {
+				res.status(404).send('<h1>404 Not Found!</h1>');
+			} else if (croom) {
+				if (req.user.adminClass.includes(req.params.code)) {
+					res.render('classroom-admin', { croom: croom });
+				} else if (req.user.memberClass.includes(req.params.code)) {
+					res.render('classroom-member', { croom: croom });
+				}
+			} else {
+				res.status(404).send('<h1>404 Not Found!</h1>');
+			}
+		});
+	} else {
+		res.redirect('/login');
 	}
 });
 
@@ -122,6 +143,26 @@ app.post('/signup', (req, res) => {
 				}
 			}
 		);
+	}
+});
+
+app.post('/create-class', (req, res) => {
+	if (req.isAuthenticated()) {
+		let code = new Date().getTime().toString(36);
+		let croom = new Class({
+			code: code,
+			admin: req.user.username,
+			name: req.body.name,
+			members: [],
+			assignments: []
+		});
+
+		croom.save();
+
+		req.user.adminClass.push(code);
+		req.user.save();
+
+		res.redirect('/classroom/' + code);
 	}
 });
 

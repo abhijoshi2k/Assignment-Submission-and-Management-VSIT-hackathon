@@ -7,6 +7,7 @@ const classSchema = new mongoose.Schema({
 		unique: true
 	},
 	name: { type: String, required: true },
+	admin: { type: String, required: true },
 	members: [],
 	assignments: [
 		{
@@ -14,7 +15,7 @@ const classSchema = new mongoose.Schema({
 			dueDate: Number,
 			title: String,
 			description: String,
-			submissions: [{ email: String, time: Number }]
+			submissions: [{ email: String, time: Number, note: String }]
 		}
 	]
 });

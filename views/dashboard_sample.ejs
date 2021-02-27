@@ -61,5 +61,14 @@
 			crossorigin="anonymous"
 		/>
 	</head>
-	<body></body>
+	<body>
+		<form action="/create-class" method="POST">
+			<input type="text" name="name" placeholder="Class Name" />
+			<button type="submit">Create Class</button>
+		</form>
+		<form action="/join-class" method="POST">
+			<input type="text" name="name" placeholder="Class Code" />
+			<button type="submit">Join Class</button>
+		</form>
+	</body>
 </html>

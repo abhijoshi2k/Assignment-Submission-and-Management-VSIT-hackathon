@@ -10,7 +10,9 @@ const userSchema = new mongoose.Schema({
 		lowercase: [true, 'Invalid Email Address'],
 		unique: [true, 'You have already Registered!']
 	},
-	name: { type: String }
+	name: { type: String },
+	adminClass: [],
+	memberClass: []
 });
 
 userSchema.plugin(passportLocalMongoose);
