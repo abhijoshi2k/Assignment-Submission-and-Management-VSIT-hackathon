@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 require('ejs');
 const session = require('express-session');
 const passport = require('passport');
-var cloudinaryRouter = require('./utils/cloudinaryUpload')
+var cloudinaryRouter = require('./utils/assignmentUpload')
 
 require('./db/mongoose');
 
