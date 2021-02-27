@@ -96,8 +96,20 @@
         <br>
         <h5>Pending:</h5>
 		<% croomMem.forEach(room => { room.assignments.forEach(assignment => {
-		if(!assignment.submissions.includes(me) && new Date().getTime()<assignment.dueDate){
-            %><%= assignment.title %> - Due: <script>document.write(new Date(parseInt('<%= assignment.dueDate %>')).getTime().toLocaleString())</script><br><%
+		if(new Date().getTime()<assignment.dueDate){
+            for(let i=0;i<assignment.submissions.length;i++)
+            {
+                if(assignment.submissions[i]==me)
+                {
+                    break;
+                }
+                else if(i+1==assignment.submissions.length)
+                {
+                    %><a href="/classroom/<%= room.code %>"><%= assignment.title %></a> - Due: <script>document.write(new Date(parseInt('<%= assignment.dueDate %>')).getTime().toLocaleString())</script><br><%
+                    break;
+                }
+            }
+            
         } }); }); %>
 	</body>
 </html>

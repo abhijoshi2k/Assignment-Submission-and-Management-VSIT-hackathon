@@ -19,9 +19,9 @@ const classSchema = new mongoose.Schema({
 				{
 					email: String,
 					time: Number,
-					note: String,
 					grade: Number,
-					graded: Boolean
+					graded: Boolean,
+					doc: Buffer
 				}
 			]
 		}

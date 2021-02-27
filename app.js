@@ -29,7 +29,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cloudinaryRouter);
 
 passport.use(User.createStrategy());
 
@@ -162,6 +161,31 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 								]
 						});
 					}
+				} else {
+					res.status(404).send('<h1>404 Not Found!</h1>');
+				}
+			});
+		} else if (req.user.memberClass.includes(req.params.code)) {
+			Class.where({ code: req.params.code }).findOne((err, croom) => {
+				if (croom.assignments[parseInt(req.params.assignment)]) {
+					let sub = false;
+					croom.assignments[
+						parseInt(req.params.assignment)
+					].submissions.forEach((submission) => {
+						if (submission.email == req.user.username) {
+							sub = submission;
+						}
+					});
+
+					res.render('upload', {
+						title:
+							croom.assignments[parseInt(req.params.assignment)]
+								.title,
+						desc:
+							croom.assignments[parseInt(req.params.assignment)]
+								.description,
+						sub: sub
+					});
 				} else {
 					res.status(404).send('<h1>404 Not Found!</h1>');
 				}
@@ -302,6 +326,58 @@ app.post('/add/:code', (req, res) => {
 					});
 				} else {
 					res.send('Server Error');
+				}
+			});
+		} else {
+			res.status(404).send('<h1>404 Not Found!</h1>');
+		}
+	} else {
+		res.redirect('/login');
+	}
+});
+
+app.post('/classroom/:code/:assignment/grade', (req, res) => {
+	if (req.isAuthenticated()) {
+		if (req.user.adminClass.includes(req.params.code)) {
+			Class.where({ code: req.params.code }).findOne((err, croom) => {
+				if (err) {
+					res.status(404).send('<h1>404 Not Found!</h1>');
+				} else if (croom) {
+					if (croom.assignments[parseInt(req.params.assignment)]) {
+						for (
+							let i = 0;
+							i <
+							croom.assignments[parseInt(req.params.assignment)]
+								.submissions.length;
+							i++
+						) {
+							if (
+								croom.assignments[
+									parseInt(req.params.assignment)
+								].submissions[i].email == req.body.email
+							) {
+								croom.assignments[
+									parseInt(req.params.assignment)
+								].submissions[i].graded = true;
+								croom.assignments[
+									parseInt(req.params.assignment)
+								].submissions[i].grade = parseInt(
+									req.body.grade
+								);
+								croom.save(() => {
+									res.redirect(
+										'/classroom/' +
+											req.params.code +
+											'/' +
+											req.params.assignment
+									);
+								});
+							}
+							break;
+						}
+					}
+				} else {
+					res.status(404).send('<h1>404 Not Found!</h1>');
 				}
 			});
 		} else {
