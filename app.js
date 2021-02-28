@@ -211,7 +211,9 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 									parseInt(req.params.assignment)
 								].description,
 							code: req.params.code,
-							no: req.params.assignment
+							no: req.params.assignment,
+							name: req.user.name,
+							email: req.user.username
 						});
 					} else {
 						res.render('submitted', {
