@@ -76,7 +76,7 @@ app.get('/dashboard', (req, res) => {
 				req.hostname + '/user/confirm/'
 			);
 			console.log('Hi');
-			res.send('Check your email and click on link to verify');
+			res.render('emailVerification');
 		} else {
 			Class.find(
 				{ code: { $in: req.user.memberClass } },

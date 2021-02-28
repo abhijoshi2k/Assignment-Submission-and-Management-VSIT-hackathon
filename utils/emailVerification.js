@@ -31,9 +31,10 @@ const sendWelcomeMail = async (userEmail, user, link) => {
 		let info = await transporter.sendMail({
 			from: 'HabitAble Team <a.habitable_team@yahoo.com>', // Yahoo Mail
 			to: userEmail, // userEmail
-			subject: 'Welcome to HabitAble',
+			subject: 'Welcome to Assign Tree!',
 			text: 'Welcome',
-			html: `<b>Your Confirmation Code is </b> 
+			html: `<p>Assign Tree is the best and most intuitive and hasslefree way to upload and share Assignments.</p>
+                    <b>Your verification code for Assigntree is: </b> 
                     <a>${link + confirmationHash}</a>` // Link
 		});
 
