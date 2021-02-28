@@ -26,6 +26,11 @@ After the onset of the pandemic and an eternal lockdown, education systems find 
 * Robust and Lightweight Tech-Stack
 
 ###  Dependancies
+#### PLAGIARISM 
+* Python Flask
+* Doc2vec, spacy, gensim, scipy, nltk
+* glove-twitter-25 dataset
+
 #### EYE GAZE TRACKING
 * clmtrackr.js
 * clmtrackr.min.js
@@ -33,10 +38,12 @@ After the onset of the pandemic and an eternal lockdown, education systems find 
 * p5.dom.min.js
 * Basic webcam functionality
 * Inbuilt-javascript functions for drawing demarcations and calculating flexible value ranges while calculating eye movement
+
 #### FACE DETECTION
 * tensorflow.js
 * face-api.min.js
 * Live-server testing
+
 #### WEB DEVELOPMENT
 Frontend: 
 * HTML
