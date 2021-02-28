@@ -104,14 +104,18 @@ app.get('/classroom/:code', (req, res) => {
 				res.status(404).send('<h1>404 Not Found!</h1>');
 			} else if (croom) {
 				if (req.user.adminClass.includes(req.params.code)) {
-					res.render('classroom-admin-sample', {
+					res.render('classroom', {
 						classRoom: croom,
-						admin: true
+						admin: true,
+						name: req.user.name,
+						email: req.user.username
 					});
 				} else if (req.user.memberClass.includes(req.params.code)) {
-					res.render('classroom-admin-sample', {
+					res.render('classroom', {
 						classRoom: croom,
-						admin: false
+						admin: false,
+						name: req.user.name,
+						email: req.user.username
 					});
 				} else {
 					res.status(404).send('404 Not Found!');
@@ -132,9 +136,11 @@ app.get('/add/:code', (req, res) => {
 				if (err) {
 					res.send('Server Error');
 				} else if (croom) {
-					res.render('add-assignment', {
+					res.render('add-assn', {
 						code: req.params.code,
-						name: croom.name
+						name: croom.name,
+						name1: req.user.name,
+						email: req.user.username
 					});
 				} else {
 					res.send('Server Error');
@@ -163,7 +169,8 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 							assignment:
 								croom.assignments[
 									parseInt(req.params.assignment)
-								]
+								],
+							email: req.user.username
 						});
 					}
 				} else {

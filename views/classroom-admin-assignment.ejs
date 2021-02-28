@@ -62,51 +62,73 @@
 		/>
 	</head>
 	<body>
-		<h3><%= name %></h3>
-		<p><b><%= assignment.title %></b></p>
-		<p><%= assignment.description %></p>
-		<small
-			>Due Date:
-			<script>
-				document.write(new Date(parseInt('<%= assignment.dueDate %>')));
-			</script></small
-		>
-		<br />
-		<small
-			>Given Date:
-			<script>
-				document.write(
-					new Date(parseInt('<%= assignment.givenDate %>'))
-				);
-			</script></small
-		>
 
-        <br>
+        <div class="bg-dark text-white">
+            <div class="container">
+                <div class="row pt-3">
+                    <div class="col-md-6 col-12">
+    
+                        <p><%= email %></p>
+                    </div>
+    
+                    <div class="col-md-6 col-12">
+                        <p class="text-md-right"><%= name %></p>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="text-right">
+                            <a href="/logout" class="btn btn-danger">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <!-- <button onclick="location.href='/classroom/<%= code %>/<%= no %>/edit'">Edit Assignment</button> -->
-        <!-- <button onclick="if(confirm('Are you sure?')){location.href='/classroom/<%= code %>/<%= no %>/delete'}">Delete Assignment</button> -->
-
-		<br />
-
-		<% assignment.submissions.forEach(sub => { %>
-		<p>
-			<b><a href="data:application/octet-stream;base64,<%= sub.doc.toString('base64') %>" target="_blank" download = "<%= sub.email %>.pdf"><%= sub.email %></a></b>
-			<br />
-
-
-
-            <% if(sub.graded) { %>
-                Marks: <%= sub.grade %>
-                <br>
-            <% } %>
-
-            <form action="/classroom/<%= code %>/<%= no %>/grade" method="POST">
-                <input type="number" name="grade" min="0" max="10" required>
-                <input type="hidden" name="email" value="<%= sub.email %>">
-                <input type="submit" name="" value="Grade">
-            </form>
-            
-		</p>
-		<% }); %>
+		<div class="container pt-4">
+		    <h4><b><%= assignment.title %></b></h4>
+    		<p><%= assignment.description %></p>
+    		<small
+    			>Due Date:
+    			<script>
+    				document.write(new Date(parseInt('<%= assignment.dueDate %>')));
+    			</script></small
+    		>
+    		<br />
+    		<small
+    			>Given Date:
+    			<script>
+    				document.write(
+    					new Date(parseInt('<%= assignment.givenDate %>'))
+    				);
+    			</script></small
+    		>
+    
+            <br>
+    
+            <!-- <button onclick="location.href='/classroom/<%= code %>/<%= no %>/edit'">Edit Assignment</button> -->
+            <!-- <button onclick="if(confirm('Are you sure?')){location.href='/classroom/<%= code %>/<%= no %>/delete'}">Delete Assignment</button> -->
+    
+    		<br />
+    
+    		<% assignment.submissions.forEach(sub => { %>
+    		<p>
+    			<b><a href="data:application/octet-stream;base64,<%= sub.doc.toString('base64') %>" target="_blank" download = "<%= sub.email %>.pdf"><%= sub.email %></a></b>
+    			<br />
+    
+    
+    
+                <% if(sub.graded) { %>
+                    Marks: <%= sub.grade %>
+                    <br>
+                <% } %>
+    
+                <form action="/classroom/<%= code %>/<%= no %>/grade" method="POST">
+                    <input type="number" name="grade" min="0" max="10" required>
+                    <input type="hidden" name="email" value="<%= sub.email %>">
+                    <input type="submit" name="" value="Grade">
+                </form>
+                
+    		</p>
+    		<% }); %>
+		</div>
 	</body>
 </html>
