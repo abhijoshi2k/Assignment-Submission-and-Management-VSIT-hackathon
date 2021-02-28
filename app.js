@@ -237,9 +237,9 @@ app.get('/logout', (req, res) => {
 
 app.post('/login', (req, res) => {
 	if (req.isAuthenticated()) {
-		if(!req.user.emailConfirmed){
-			sendWelcomeMail(req.user.username)
-			console.log("Hi")
+		if (!req.user.emailConfirmed) {
+			sendWelcomeMail(req.user.username);
+			console.log('Hi');
 		}
 		res.redirect('/home');
 	} else if (
@@ -260,10 +260,10 @@ app.post('/login', (req, res) => {
 				res.send({ message: 'Incorrect Email Address or Password' });
 			} else {
 				passport.authenticate('local')(req, res, () => {
-					if(!req.user.emailConfirmed){
-						sendWelcomeMail(req.user.username, req.user)
-						console.log("Hi")
-					}	
+					if (!req.user.emailConfirmed) {
+						sendWelcomeMail(req.user.username, req.user);
+						console.log('Hi');
+					}
 					res.send({ message: 'Done' });
 				});
 			}
@@ -444,14 +444,6 @@ app.post('/upload/:code/:assn', async (req, res) => {
 				return res.status(404).send();
 			}
 			// Encoding the PDF to base64
-<<<<<<< HEAD
-			console.log(req.files.userPDF.data)
-			let encodedPdf = base64.base64Encode(req.files.userPDF.data);
-			res.render('upload', file=req.files.userPDF.data)
-			res.redirect('/upload')
-=======
-			//let encodedPdf = base64.base64Encode(req.files.userPDF.data);
->>>>>>> 02f54167d1fabe1765af9208b434ae5753dd88c0
 
 			Class.where({ code: req.params.code }).findOne((err, croom) => {
 				if (err) {
@@ -497,24 +489,26 @@ app.post('/upload/:code/:assn', async (req, res) => {
 	}
 });
 
-app.post('/user/confirm/:hash', async(req, res) =>{
-    try{
-		if(req.isAuthenticated){
-			const user = req.user
-			const confirmationHash = req.user.emailValidationHash
-			if(req.params.hash === confirmationHash){
-				res.status(200).send({ "message": "Congratulations, your Email has been verified." })
-				user.emailConfirmed = true
-				await req.user.save()
+app.post('/user/confirm/:hash', async (req, res) => {
+	try {
+		if (req.isAuthenticated) {
+			const user = req.user;
+			const confirmationHash = req.user.emailValidationHash;
+			if (req.params.hash === confirmationHash) {
+				res.status(200).send({
+					message: 'Congratulations, your Email has been verified.'
+				});
+				user.emailConfirmed = true;
+				await req.user.save();
 			}
-        }else{
-            res.status(404).send()
-        }
-    } catch(e) {
-        console.log(e)
-        res.status(500).send()
-    }
-})
+		} else {
+			res.status(404).send();
+		}
+	} catch (e) {
+		console.log(e);
+		res.status(500).send();
+	}
+});
 
 app.use((req, res, next) => {
 	res.status(404).send('<h1>404! Not Found</h1>');
