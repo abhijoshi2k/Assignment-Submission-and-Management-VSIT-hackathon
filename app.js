@@ -201,20 +201,45 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 					});
 
 					if (sub == false) {
-						res.render('upload', {
-							title:
-								croom.assignments[
-									parseInt(req.params.assignment)
-								].title,
-							desc:
-								croom.assignments[
-									parseInt(req.params.assignment)
-								].description,
-							code: req.params.code,
-							no: req.params.assignment,
-							name: req.user.name,
-							email: req.user.username
-						});
+						if (
+							new Date().getTime() >
+							croom.assignments[parseInt(req.params.assignment)]
+								.dueDate
+						) {
+							res.render('dueDate', {
+								dueDate:
+									croom.assignments[
+										parseInt(req.params.assignment)
+									].dueDate,
+								title:
+									croom.assignments[
+										parseInt(req.params.assignment)
+									].title,
+								desc:
+									croom.assignments[
+										parseInt(req.params.assignment)
+									].description,
+								code: req.params.code,
+								no: req.params.assignment,
+								name: req.user.name,
+								email: req.user.username
+							});
+						} else {
+							res.render('upload', {
+								title:
+									croom.assignments[
+										parseInt(req.params.assignment)
+									].title,
+								desc:
+									croom.assignments[
+										parseInt(req.params.assignment)
+									].description,
+								code: req.params.code,
+								no: req.params.assignment,
+								name: req.user.name,
+								email: req.user.username
+							});
+						}
 					} else {
 						res.render('assignment-stat', {
 							title:

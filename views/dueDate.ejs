@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Classroom</title>
+	<title>Assignment Status</title>
 
 	<!-- Meta tag Keywords -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +28,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="../../public/css/style.css">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
@@ -60,38 +60,32 @@
 
 
 	<div class="container">
-		
+
+		<h3><%= title %></h3>
+
+		<p><%= desc %></p>
 			
       
       <div class="row">
 	<div class="col-2">
-    <h2><%= classRoom.name %> <small><%= classRoom.code %></small></h2>
-    <% if(admin) { %>
-	<button class="btn btn-success" onclick="location.href='/add/<%= classRoom.code %>'">Add Assignment</button>
-    <% } %>
+    <h4>Status:</h4>
         </div></div>
         
         <div class="row">
             <div class="container">
               <div class="panel-group">
+    <h4>    <div class="panel panel-danger">
+      <div class="panel-heading text-center">Due Date Missed</div>
+	  
+    </div></h4>
 
-				<% for(let i=classRoom.assignments.length-1;i>=0;i--) { %>
-					<h4>    <div class="panel panel-info">
-						<div class="panel-heading"><a href="/classroom/<%= classRoom.code %>/<%= i %>"><%= classRoom.assignments[i].title %></a></div>
-						<div class="panel-body"><%= classRoom.assignments[i].description %></div>
-						</div></h4>
-				<% } %>
-
-				
           
             </div>
     </div>
           
         </div>
    </div>
-			</div>
-		</div>
-	</div>
+
 
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
