@@ -80,9 +80,10 @@ app.get('/dashboard', (req, res) => {
 							if (err) {
 								res.send('Some error occurred');
 							} else {
-								res.render('dashboard_sample', {
+								res.render('dashboard', {
 									croomMem: croomMem,
 									me: req.user.username,
+									name: req.user.name,
 									croomAdm: croomAdm
 								});
 							}
@@ -261,7 +262,12 @@ app.post('/signup', (req, res) => {
 		res.send({ message: 'Passwords do not match' });
 	} else {
 		User.register(
-			{ username: req.body.username },
+			{
+				username: req.body.username,
+				adminClass: [],
+				memberClass: [],
+				name: req.body.name
+			},
 			req.body.password,
 			(err, user) => {
 				if (err) {
