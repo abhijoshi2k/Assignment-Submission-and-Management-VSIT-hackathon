@@ -69,30 +69,40 @@ app.get('/signup', (req, res) => {
 
 app.get('/dashboard', (req, res) => {
 	if (req.isAuthenticated()) {
-		Class.find(
-			{ code: { $in: req.user.memberClass } },
-			function (err, croomMem) {
-				if (err) {
-					res.send('Some error occurred');
-				} else {
-					Class.find(
-						{ admin: req.user.username },
-						(err, croomAdm) => {
-							if (err) {
-								res.send('Some error occurred');
-							} else {
-								res.render('dashboard', {
-									croomMem: croomMem,
-									me: req.user.username,
-									name: req.user.name,
-									croomAdm: croomAdm
-								});
+		if (!req.user.emailConfirmed) {
+			sendWelcomeMail(
+				req.user.username,
+				req.user,
+				req.hostname + '/user/confirm/'
+			);
+			console.log('Hi');
+			res.send('Check your email and click on link to verify');
+		} else {
+			Class.find(
+				{ code: { $in: req.user.memberClass } },
+				function (err, croomMem) {
+					if (err) {
+						res.send('Some error occurred');
+					} else {
+						Class.find(
+							{ admin: req.user.username },
+							(err, croomAdm) => {
+								if (err) {
+									res.send('Some error occurred');
+								} else {
+									res.render('dashboard', {
+										croomMem: croomMem,
+										me: req.user.username,
+										name: req.user.name,
+										croomAdm: croomAdm
+									});
+								}
 							}
-						}
-					);
+						);
+					}
 				}
-			}
-		);
+			);
+		}
 	} else {
 		res.redirect('/login');
 	}
@@ -237,10 +247,6 @@ app.get('/logout', (req, res) => {
 
 app.post('/login', (req, res) => {
 	if (req.isAuthenticated()) {
-		if (!req.user.emailConfirmed) {
-			sendWelcomeMail(req.user.username);
-			console.log('Hi');
-		}
 		res.redirect('/home');
 	} else if (
 		!(req.body.username && req.body.password) ||
@@ -260,10 +266,6 @@ app.post('/login', (req, res) => {
 				res.send({ message: 'Incorrect Email Address or Password' });
 			} else {
 				passport.authenticate('local')(req, res, () => {
-					if (!req.user.emailConfirmed) {
-						sendWelcomeMail(req.user.username, req.user);
-						console.log('Hi');
-					}
 					res.send({ message: 'Done' });
 				});
 			}
@@ -489,15 +491,13 @@ app.post('/upload/:code/:assn', async (req, res) => {
 	}
 });
 
-app.post('/user/confirm/:hash', async (req, res) => {
+app.get('/user/confirm/:hash', async (req, res) => {
 	try {
-		if (req.isAuthenticated) {
+		if (req.isAuthenticated()) {
 			const user = req.user;
 			const confirmationHash = req.user.emailValidationHash;
 			if (req.params.hash === confirmationHash) {
-				res.status(200).send({
-					message: 'Congratulations, your Email has been verified.'
-				});
+				res.redirect('/dashboard');
 				user.emailConfirmed = true;
 				await req.user.save();
 			}
