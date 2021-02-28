@@ -70,14 +70,14 @@
 				<p>Platform for Easy Assignment Submission</p>
 			</div>
 
-			<form id="test" action="/signup" method="post">
+			<form id="test" action="javascript: void(0)">
 				<div class="form-group">
-					<label for="First-Name">First-Name</label>
+					<label for="First-Name">Full Name</label>
 					<input
 						type="text"
 						class="form-control mb-3"
 						name="name"
-						id="First-Name"
+						id="name"
 						required
 					/>
 
@@ -86,7 +86,7 @@
 						type="email"
 						class="form-control mb-3"
 						name="username"
-						id="Email"
+						id="email"
 						required
 					/>
 
@@ -95,7 +95,7 @@
 						type="password"
 						class="form-control mb-3"
 						name="password"
-						id="Password"
+						id="password"
 						required
 					/>
 					<label for="Password">Password Again</label>
@@ -103,9 +103,11 @@
 						type="password"
 						class="form-control mb-3"
 						name="passwordagain"
-						id="Password"
+						id="passwordagain"
 						required
 					/>
+
+					<small id="status"></small>
 
 					<div class="text-center">
 						<input
@@ -118,5 +120,43 @@
 				</div>
 			</form>
 		</div>
+
+		<script type="text/javascript">
+			function sendreq() {
+				
+				email = $('#email').val();
+				pass = $('#password').val();
+				passwordagain = $('#passwordagain').val();
+				name = $('#name').val();
+
+				var ser = {};
+
+				ser['username'] = email;
+				ser['password'] = pass;
+				ser['passwordagain'] = passwordagain;
+				ser['name'] = name
+
+				$.ajax({
+					url: '/signup',
+					type: 'POST',
+					data: ser,
+					success: function (res) {
+						if (res.message == 'done') {
+							window.location.href = '/dashboard';
+						} else {
+							document.getElementById('status').innerHTML = res.message;
+						}
+					},
+					error: function (res) {
+						
+					}
+				});
+			}
+
+			document.getElementById('test').onsubmit = function () {
+				sendreq();
+				return false;
+			};
+		</script>
 	</body>
 </html>

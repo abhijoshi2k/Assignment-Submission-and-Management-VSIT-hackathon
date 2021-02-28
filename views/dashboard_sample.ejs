@@ -80,7 +80,7 @@
         <p>Admin:</p>
         <ul>
             <% croomAdm.forEach(cr => {
-                %><li><a href="/classroom/<%= cr.code %>"><%= cr.name %></a></li><%
+                %><li><a href="/classroom/<%= cr.code %>"><%= cr.name %> (<%= cr.code %>)</a></li><%
             }); %>
         </ul>
 

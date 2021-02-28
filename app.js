@@ -81,9 +81,10 @@ app.get('/dashboard', (req, res) => {
 							if (err) {
 								res.send('Some error occurred');
 							} else {
-								res.render('dashboard_sample', {
+								res.render('dashboard', {
 									croomMem: croomMem,
 									me: req.user.username,
+									name: req.user.name,
 									croomAdm: croomAdm
 								});
 							}
@@ -104,14 +105,18 @@ app.get('/classroom/:code', (req, res) => {
 				res.status(404).send('<h1>404 Not Found!</h1>');
 			} else if (croom) {
 				if (req.user.adminClass.includes(req.params.code)) {
-					res.render('classroom-admin-sample', {
+					res.render('classroom', {
 						classRoom: croom,
-						admin: true
+						admin: true,
+						name: req.user.name,
+						email: req.user.username
 					});
 				} else if (req.user.memberClass.includes(req.params.code)) {
-					res.render('classroom-admin-sample', {
+					res.render('classroom', {
 						classRoom: croom,
-						admin: false
+						admin: false,
+						name: req.user.name,
+						email: req.user.username
 					});
 				} else {
 					res.status(404).send('404 Not Found!');
@@ -132,9 +137,11 @@ app.get('/add/:code', (req, res) => {
 				if (err) {
 					res.send('Server Error');
 				} else if (croom) {
-					res.render('add-assignment', {
+					res.render('add-assn', {
 						code: req.params.code,
-						name: croom.name
+						name: croom.name,
+						name1: req.user.name,
+						email: req.user.username
 					});
 				} else {
 					res.send('Server Error');
@@ -163,7 +170,8 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 							assignment:
 								croom.assignments[
 									parseInt(req.params.assignment)
-								]
+								],
+							email: req.user.username
 						});
 					}
 				} else {
@@ -194,6 +202,20 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 								].description,
 							code: req.params.code,
 							no: req.params.assignment
+						});
+					} else {
+						res.render('submitted', {
+							title:
+								croom.assignments[
+									parseInt(req.params.assignment)
+								].title,
+							desc:
+								croom.assignments[
+									parseInt(req.params.assignment)
+								].description,
+							code: req.params.code,
+							no: req.params.assignment,
+							sub: sub
 						});
 					}
 				} else {
@@ -256,7 +278,12 @@ app.post('/signup', (req, res) => {
 		res.send({ message: 'Passwords do not match' });
 	} else {
 		User.register(
-			{ username: req.body.username },
+			{
+				username: req.body.username,
+				adminClass: [],
+				memberClass: [],
+				name: req.body.name
+			},
 			req.body.password,
 			(err, user) => {
 				if (err) {
@@ -417,10 +444,14 @@ app.post('/upload/:code/:assn', async (req, res) => {
 				return res.status(404).send();
 			}
 			// Encoding the PDF to base64
+<<<<<<< HEAD
 			console.log(req.files.userPDF.data)
 			let encodedPdf = base64.base64Encode(req.files.userPDF.data);
 			res.render('upload', file=req.files.userPDF.data)
 			res.redirect('/upload')
+=======
+			//let encodedPdf = base64.base64Encode(req.files.userPDF.data);
+>>>>>>> 02f54167d1fabe1765af9208b434ae5753dd88c0
 
 			Class.where({ code: req.params.code }).findOne((err, croom) => {
 				if (err) {
@@ -433,9 +464,11 @@ app.post('/upload/:code/:assn', async (req, res) => {
 						time: new Date().getTime(),
 						grade: 0,
 						graded: false,
-						doc: encodedPdf
+						doc: req.files.userPDF.data
 					});
-					croom.save();
+					croom.save(() => {
+						res.redirect('/upload/req.params.code/req.params.assn');
+					});
 				}
 			});
 
@@ -455,7 +488,6 @@ app.post('/upload/:code/:assn', async (req, res) => {
 			//   }
 			//   await user.save();
 			// await class.save();
-			res.status(201).send(buffer);
 		} else {
 			res.render('register');
 		}
