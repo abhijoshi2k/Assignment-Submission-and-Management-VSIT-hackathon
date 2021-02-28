@@ -12,7 +12,9 @@ const userSchema = new mongoose.Schema({
 	},
 	name: { type: String },
 	adminClass: [],
-	memberClass: []
+	memberClass: [],
+	emailValidationHash: {type: String},
+	emailConfirmed: {type: Boolean, default: false}
 });
 
 userSchema.plugin(passportLocalMongoose);

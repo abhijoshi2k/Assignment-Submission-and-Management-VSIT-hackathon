@@ -12,6 +12,7 @@ require('./db/mongoose');
 
 const User = require('./schema/userSchema');
 const Class = require('./schema/classSchema');
+const { sendWelcomeMail } = require('./utils/emailVerification');
 
 const app = express();
 
@@ -214,6 +215,10 @@ app.get('/logout', (req, res) => {
 
 app.post('/login', (req, res) => {
 	if (req.isAuthenticated()) {
+		if(!req.user.emailConfirmed){
+			sendWelcomeMail(req.user.username)
+			console.log("Hi")
+		}
 		res.redirect('/home');
 	} else if (
 		!(req.body.username && req.body.password) ||
@@ -233,6 +238,10 @@ app.post('/login', (req, res) => {
 				res.send({ message: 'Incorrect Email Address or Password' });
 			} else {
 				passport.authenticate('local')(req, res, () => {
+					if(!req.user.emailConfirmed){
+						sendWelcomeMail(req.user.username, req.user)
+						console.log("Hi")
+					}	
 					res.send({ message: 'Done' });
 				});
 			}
@@ -455,6 +464,25 @@ app.post('/upload/:code/:assn', async (req, res) => {
 		res.status(400).send(e);
 	}
 });
+
+app.post('/user/confirm/:hash', async(req, res) =>{
+    try{
+		if(req.isAuthenticated){
+			const user = req.user
+			const confirmationHash = req.user.emailValidationHash
+			if(req.params.hash === confirmationHash){
+				res.status(200).send({ "message": "Congratulations, your Email has been verified." })
+				user.emailConfirmed = true
+				await req.user.save()
+			}
+        }else{
+            res.status(404).send()
+        }
+    } catch(e) {
+        console.log(e)
+        res.status(500).send()
+    }
+})
 
 app.use((req, res, next) => {
 	res.status(404).send('<h1>404! Not Found</h1>');
