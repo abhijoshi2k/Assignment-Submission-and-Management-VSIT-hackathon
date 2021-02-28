@@ -38,4 +38,15 @@ After the onset of the pandemic and an eternal lockdown, education systems find 
 * face-api.min.js
 * Live-server testing
 #### WEB DEVELOPMENT
-* 
+Frontend: 
+* HTML
+* CSS
+* JS
+* EJS.
+
+Backend:
+* NodeJS
+* Express
+* PassportJS
+* Nodemailer SMTP
+* Node Crypto
