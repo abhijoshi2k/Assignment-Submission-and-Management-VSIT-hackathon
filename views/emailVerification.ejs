@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Classroom</title>
+	<title>Student Dashboard</title>
 
 	<!-- Meta tag Keywords -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" />
-    <meta name="description" content="Assignment Submission">
+    <meta name="description" content="Student Assignment Submission System">
     <meta name="author" content="Abhishek Joshi, Shabarish Ramaswamy, Aakriti Sharma, Shlok Naik">
 
     <!-- Chrome, Firefox OS and Opera -->
@@ -28,74 +28,51 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
-
-
-    
 </head>
 <body>
 
+
 	<div class="bg-dark text-white">
-		<div class="container">
-			<div class="row pt-3">
-				<div class="col-md-6 col-12">
-
-					<p><%= email %></p>
-				</div>
-
-				<div class="col-md-6 col-12">
-					<p class="text-md-right"><%= name %></p>
-				</div>
-				<div class="col-12 mb-3">
-					<div class="text-right">
-						<a href="/logout" class="btn btn-danger">Logout</a>
-					</div>
+		<div class="container py-3">
+			<div class="row">
+				<div class="col-8">
+					<h1 class="home-logo">Assign <span class="text-danger">Tree!</span></h1>
 				</div>
 			</div>
 		</div>
-	</div>
-
-
-	<div class="container">
 		
-			
-      
-      <div class="row">
-	<div class="col-2">
-    <h2><%= classRoom.name %> <small><%= classRoom.code %></small></h2>
-    <% if(admin) { %>
-	<button class="btn btn-success" onclick="location.href='/add/<%= classRoom.code %>'">Add Assignment</button>
-    <% } %>
-        </div></div>
-        
-        <div class="row">
-            <div class="container">
-              <div class="panel-group">
-
-				<% for(let i=0;i<classRoom.assignments.length;i++) { %>
-					<h4>    <div class="panel panel-info">
-						<div class="panel-heading"><a href="/classroom/<%= classRoom.code %>/<%= i %>"><%= classRoom.assignments[i].title %></a></div>
-						<div class="panel-body"><%= classRoom.assignments[i].description %></div>
-						</div></h4>
-				<% } %>
-
-				
-          
-            </div>
-    </div>
-          
-        </div>
-   </div>
-			</div>
-		</div>
 	</div>
 
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-      
+	<div class="container pt-4">
+
+		<div class="row justify-content-between align-items-center">
+			<div class="col-lg-4">
+				<img src="https://www.testinvite.com/asset/v3/hero/administer-proctored-online-exams-with-webcam-video-screen-recording.png" class="w-100 home-img" alt="">
+			</div>
+			<div class="col-lg-10">
+				<p>
+					Please Confirm your Email
+				</p>
+
+				<p>
+					This application requires Authenticated users to perform well. Please confirm your email.
+				</p>
+
+				<p>
+					Our goal is to <b>Make Online Submissions Easier and Stop Plagarism.</b>
+				</p>
+
+				<p>
+					<small>This application was created by Abhishek Joshi, Shabarish Ramaswamy, Aakriti Sharma, Shlok Naik</small>
+				</p>
+			</div>
+		</div>
+		
+	</div>
+
 </body>
 </html>
