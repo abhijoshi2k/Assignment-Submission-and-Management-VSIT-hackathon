@@ -1,5 +1,5 @@
 
-## Assignment Submission Application
+# Assignment Submission Application
 
 ###  Problem Statement
 After the onset of the pandemic and an eternal lockdown, education systems find it difficult to ensure proper and fair academic development of students. Assignment submissions have become more of a copy-paste job rather than an honest process. When assignments are taken from a remote location, integrity of the system reduces automatically. We aim to solve this problem by implementing a simple, interactive application that enables teachers to post their assignments without worrying about plagiarism and copy-work.
