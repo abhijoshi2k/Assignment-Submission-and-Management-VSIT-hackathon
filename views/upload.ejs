@@ -6,4 +6,19 @@
     <div>
         <button>Submit</button>
     </div>
+    <script>
+        var obj = document.createElement('object');
+        obj.style.width = '100%';
+        obj.style.height = '842pt';
+        obj.type = 'application/pdf';
+        obj.data = 'data:application/pdf;' + b64;
+        document.body.appendChild(obj);
+
+        // Insert a link that allows the user to download the PDF file
+        //var link = document.createElement('a');
+        // link.innerHTML = 'Download PDF file';
+        // link.download = 'file.pdf';
+        // link.href = 'data:application/octet-stream;,' + b64;
+        // document.body.appendChild(link);
+    </script>
 </form>

@@ -408,7 +408,10 @@ app.post('/upload/:code/:assn', async (req, res) => {
 				return res.status(404).send();
 			}
 			// Encoding the PDF to base64
+			console.log(req.files.userPDF.data)
 			let encodedPdf = base64.base64Encode(req.files.userPDF.data);
+			res.render('upload', file=req.files.userPDF.data)
+			res.redirect('/upload')
 
 			Class.where({ code: req.params.code }).findOne((err, croom) => {
 				if (err) {
