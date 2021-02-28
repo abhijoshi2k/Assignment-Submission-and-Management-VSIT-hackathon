@@ -43,29 +43,15 @@
 			<div class="row pt-3">
 				<div class="col-md-6 col-12">
 
-					<h2><%=user.name.firstname%> <%=user.name.lastname%></h2>
-					<p><%=user.prn%></p>
+					<p><%= email %></p>
 				</div>
 
 				<div class="col-md-6 col-12">
-					<p class="text-md-right"><%=user.institute%></p>
-					<p class="text-md-right">
-
-						<%if(user.position===undefined || user.position===null) {%>
-
-						<%=user.academic_year.start_date.slice(0,4)%> - <%=user.academic_year.end_date.slice(0,4)%>
-
-						<%} else {%>
-						<%=user.position%>
-						<%}%>
-
-
-							
-					</p>
+					<p class="text-md-right"><%= name %></p>
 				</div>
 				<div class="col-12 mb-3">
 					<div class="text-right">
-						
+						<a href="/logout" class="btn btn-danger">Logout</a>
 					</div>
 				</div>
 			</div>
@@ -74,20 +60,15 @@
 
 
 	<div class="container">
-		<div class="row pt-5">
-			<div class="col">
-										<!--<label for="new">Enter test code</label>
-						<input type="text" class="form-control text-center" name="test_code" id="new" required>
-						<small class="text-danger" id="incorrect" style="display: none;">Invalid room code</small>
-						<input type="submit" id="login-sub" class="btn btn-danger mt-2 form-control" value="Start">-->
-					</div>
-				</form>
-			</div>
+
+		<h3><%= title %></h3>
+
+		<p><%= desc %></p>
 			
       
       <div class="row">
 	<div class="col-2">
-    <h2>Status:</h2>
+    <h4>Status:</h4>
         </div></div>
         
         <div class="row">
@@ -95,7 +76,11 @@
               <div class="panel-group">
     <h4>    <div class="panel panel-success">
       <div class="panel-heading text-center">Assignment Submitted Succesfully!</div>
+	  <% if(!sub.graded) { %>
       <div class="panel-body">Grade: Not graded</div>
+	  <% } else { %>
+		<div class="panel-body">Grade: <%= sub.grade %></div>
+		<% } %>
     </div></h4>
 
           
@@ -104,9 +89,7 @@
           
         </div>
    </div>
-			</div>
-		</div>
-	</div>
+
 
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

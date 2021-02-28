@@ -89,7 +89,7 @@
     		<small
     			>Due Date:
     			<script>
-    				document.write(new Date(parseInt('<%= assignment.dueDate %>')));
+    				document.write(new Date(parseInt('<%= assignment.dueDate %>')).toLocaleString());
     			</script></small
     		>
     		<br />
@@ -97,7 +97,7 @@
     			>Given Date:
     			<script>
     				document.write(
-    					new Date(parseInt('<%= assignment.givenDate %>'))
+    					new Date(parseInt('<%= assignment.givenDate %>')).toLocaleString()
     				);
     			</script></small
     		>
@@ -111,7 +111,7 @@
     
     		<% assignment.submissions.forEach(sub => { %>
     		<p>
-    			<b><a href="data:application/octet-stream;base64,<%= sub.doc.toString('base64') %>" target="_blank" download = "<%= sub.email %>.pdf"><%= sub.email %></a></b>
+    			<b><a href="data:application/octet-stream;base64,<%= sub.doc.toString('base64') %>" target="_blank" download = "<%= sub.email %>.pdf"><%= sub.email %></a></b> <small><script>document.write(new Date(parseInt('<%= sub.time %>')).toLocaleString())</script></small>
     			<br />
     
     

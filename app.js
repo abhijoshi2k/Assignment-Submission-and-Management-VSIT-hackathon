@@ -216,7 +216,7 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 							email: req.user.username
 						});
 					} else {
-						res.render('submitted', {
+						res.render('assignment-stat', {
 							title:
 								croom.assignments[
 									parseInt(req.params.assignment)
@@ -227,7 +227,9 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 								].description,
 							code: req.params.code,
 							no: req.params.assignment,
-							sub: sub
+							sub: sub,
+							email: req.user.username,
+							name: req.user.name
 						});
 					}
 				} else {
@@ -421,8 +423,8 @@ app.post('/classroom/:code/:assignment/grade', (req, res) => {
 											req.params.assignment
 									);
 								});
+								break;
 							}
-							break;
 						}
 					}
 				} else {
@@ -463,7 +465,12 @@ app.post('/upload/:code/:assn', async (req, res) => {
 						doc: req.files.userPDF.data
 					});
 					croom.save(() => {
-						res.redirect('/upload/req.params.code/req.params.assn');
+						res.redirect(
+							'/classroom/' +
+								req.params.code +
+								'/' +
+								req.params.assn
+						);
 					});
 				}
 			});
