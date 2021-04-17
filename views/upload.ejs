@@ -59,7 +59,20 @@
 	</div>
 
 
-	<div class="container pt-4">
+    <div class="container pt-3">
+        <h3><%= title %></h3>
+    
+    		<p>
+          <%= desc %>
+          <% if(file){ %>
+            <br>
+            <a href="data:application/octet-stream;base64,<%= file.toString('base64') %>" target="_blank" download = "<%= title %>.pdf">Attached File</a>
+          <% } %>
+        </p>
+    </div>
+
+
+	<div class="container pt-2">
         <form method="post" action="/upload/<%= code %>/<%= no %>" enctype="multipart/form-data">
             <div class="form-group">
               <label for="userPDF">Submit your Assignment</label>

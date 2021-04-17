@@ -84,7 +84,7 @@
     <h2><%= name %> <small><%= code %></small></h2>
         </div></div>
 
-        <form action="/add/<%= code %>" method="POST" onsubmit="return check()">
+        <form action="/add/<%= code %>">
             <div class="form-group">
               <label for="exampleInputEmail1">Due Date</label>
               <input type="datetime-local" class="form-control" id="date" name="date" onchange="check()" required>
@@ -98,8 +98,56 @@
                 <label for="exampleInputEmail1">Description</label>
                 <input type="text" class="form-control" id="description" name="description" required>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
+        </form>
+        <form action="/add/<%= code %>/upload/<%= no %>" enctype="multipart/form-data" method="POST" id="doc-upl">
+            <div class="form-group">
+                <label for="userPDF">Add file (Optional)</label>
+                <input type="file" class="form-control-file" id="userPDF" name="userPDF" accept=".pdf">
+              </div>
+              <input class="btn btn-primary" type="submit" name="" id="">
+        </form>
+
+        <script>
+            document.getElementById('doc-upl').addEventListener('submit',(e)=>{
+                e.preventDefault()
+
+                if(!check())
+                {
+                    return false;
+                }
+
+                let ser={}
+                ser['hide']=document.getElementById('hide').value
+                ser['title']=document.getElementById('title').value
+                ser['description']=document.getElementById('description').value
+                
+                $.ajax({
+					url: '/add/<%= code %>',
+					type: 'POST',
+					data: ser,
+					success: function (res) {
+						if (res.message == 'Done') {
+                            if(document.getElementById('userPDF').files.length > 0)
+							{
+                                document.getElementById('doc-upl').submit()
+                            }
+                            else{
+                                location.replace('/classroom/<%= code %>')
+                            }
+						} else {
+							alert('Error')
+						}
+					},
+					error: function (res) {
+						document.getElementById('incorrect').style.display =
+							'block';
+						document
+							.getElementById('login-sub')
+							.removeAttribute('disabled');
+					}
+				});
+            })
+        </script>
           
         
         
@@ -110,5 +158,5 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
       
-</body>}
+</body>
 </html>

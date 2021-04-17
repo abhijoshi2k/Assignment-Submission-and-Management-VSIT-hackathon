@@ -151,7 +151,8 @@ app.get('/add/:code', (req, res) => {
 						code: req.params.code,
 						name: croom.name,
 						name1: req.user.name,
-						email: req.user.username
+						email: req.user.username,
+						no: croom.assignments.length
 					});
 				} else {
 					res.send('Server Error');
@@ -219,6 +220,10 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 									croom.assignments[
 										parseInt(req.params.assignment)
 									].description,
+								file:
+									croom.assignments[
+										parseInt(req.params.assignment)
+									].fileBuffer,
 								code: req.params.code,
 								no: req.params.assignment,
 								name: req.user.name,
@@ -226,6 +231,10 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 							});
 						} else {
 							res.render('upload', {
+								dueDate:
+									croom.assignments[
+										parseInt(req.params.assignment)
+									].dueDate,
 								title:
 									croom.assignments[
 										parseInt(req.params.assignment)
@@ -234,6 +243,10 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 									croom.assignments[
 										parseInt(req.params.assignment)
 									].description,
+								file:
+									croom.assignments[
+										parseInt(req.params.assignment)
+									].fileBuffer,
 								code: req.params.code,
 								no: req.params.assignment,
 								name: req.user.name,
@@ -250,6 +263,10 @@ app.get('/classroom/:code/:assignment', (req, res) => {
 								croom.assignments[
 									parseInt(req.params.assignment)
 								].description,
+							file:
+								croom.assignments[
+									parseInt(req.params.assignment)
+								].fileBuffer,
 							code: req.params.code,
 							no: req.params.assignment,
 							sub: sub,
@@ -383,6 +400,34 @@ app.post('/join-class', (req, res) => {
 	}
 });
 
+app.post('/add/:code/upload/:no', (req, res) => {
+	if (req.isAuthenticated()) {
+		if (req.user.adminClass.includes(req.params.code)) {
+			Class.where({ code: req.params.code }).findOne((err, croom) => {
+				if (err) {
+					res.send(err);
+				} else if (croom) {
+					if (!req.files) {
+						res.send('Error uploading file');
+					} else {
+						croom.assignments[parseInt(req.params.no)].fileBuffer =
+							req.files.userPDF.data;
+						croom.save(() => {
+							res.redirect('/classroom/' + req.params.code);
+						});
+					}
+				} else {
+					res.send('Server Error');
+				}
+			});
+		} else {
+			res.status(404).send('<h1>404 Not Found!</h1>');
+		}
+	} else {
+		res.redirect('/login');
+	}
+});
+
 app.post('/add/:code', (req, res) => {
 	if (req.isAuthenticated()) {
 		if (req.user.adminClass.includes(req.params.code)) {
@@ -398,7 +443,7 @@ app.post('/add/:code', (req, res) => {
 						submissions: []
 					});
 					croom.save(() => {
-						res.redirect('/classroom/' + req.params.code);
+						res.send({ message: 'Done' });
 					});
 				} else {
 					res.send('Server Error');

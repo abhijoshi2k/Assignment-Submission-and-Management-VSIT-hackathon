@@ -15,6 +15,7 @@ const classSchema = new mongoose.Schema({
 			dueDate: Number,
 			title: String,
 			description: String,
+			fileBuffer: Buffer,
 			submissions: [
 				{
 					email: String,

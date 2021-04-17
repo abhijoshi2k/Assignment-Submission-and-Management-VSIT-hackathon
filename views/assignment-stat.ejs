@@ -63,7 +63,13 @@
 
 		<h3><%= title %></h3>
 
-		<p><%= desc %></p>
+		<p>
+      <%= desc %>
+      <% if(file){ %>
+        <br>
+        <a href="data:application/octet-stream;base64,<%= file.toString('base64') %>" target="_blank" download = "<%= title %>.pdf">Attached File</a>
+      <% } %>
+    </p>
 			
       
       <div class="row">

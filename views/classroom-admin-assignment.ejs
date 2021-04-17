@@ -85,7 +85,15 @@
 
 		<div class="container pt-4">
 		    <h4><b><%= assignment.title %></b></h4>
-    		<p><%= assignment.description %></p>
+    		<p>
+				<%= assignment.description %>
+				<% if(assignment.fileBuffer){ %>
+					<br>
+					<a href="data:application/octet-stream;base64,<%= assignment.fileBuffer.toString('base64') %>" target="_blank" download = "<%= assignment.title %>.pdf">Attached File</a>
+				<% } %>
+				
+				
+			</p>
     		<small
     			>Due Date:
     			<script>
