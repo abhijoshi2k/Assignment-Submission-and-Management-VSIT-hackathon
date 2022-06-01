@@ -34,7 +34,7 @@
 		"nodemailer": "^6.5.0",
 		"passport": "^0.4.1",
 		"passport-local-mongoose": "^6.1.0",
-		"sharp": "^0.27.2"
+		"sharp": "^0.30.5"
 	},
 	"devDependencies": {
 		"eslint": "^7.20.0",
